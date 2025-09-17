@@ -3,45 +3,49 @@ using AxaColpatria.NotAxApp.Core.Models;
 using AxaColpatria.NotAxApp.Infraestructure.Data;
 using Microsoft.EntityFrameworkCore;
 
-namespace AxaColpatria.NotAxApp.Infraestructure.Repositories
+namespace AxaColpatria.NotAxApp.Infrastructure.Repositories
 {
-    internal class TableroRepository : ITableroRepository
+    public class TableroRepository : ITableroRepository
     {
         private readonly AppDbContext _context;
 
         public TableroRepository(AppDbContext context)
         {
-
             _context = context;
-
         }
 
-        public async Task<IEnumerable<Tablero>> GetAllTablerosAsync()
-            => await _context.Tableros.Include(b => b.Notas).ToListAsync();
-
-        public async Task<Tablero?> GetTableroByIdAsync(int id)
-            => await _context.Tableros.Include(b => b.Notas).FirstOrDefaultAsync(b => b.Id == id);
-
-        public async Task<Tablero> AddTableroAsync(Tablero board)
+        public async Task<IEnumerable<Tablero>> GetAllAsync()
         {
-            _context.Tableros.Add(board);
+            return await _context.Tableros.ToListAsync();
+        }
+
+        public async Task<Tablero?> GetByIdAsync(int id)
+        {
+            return await _context.Tableros.FindAsync(id);
+        }
+
+        public async Task<Tablero> AddAsync(Tablero tablero)
+        {
+            _context.Tableros.Add(tablero);
             await _context.SaveChangesAsync();
-            return board;
+            return tablero;
         }
 
-        public async Task<bool> UpdateTableroAsync(Tablero board)
+        public async Task<bool> UpdateAsync(Tablero tablero)
         {
-            _context.Tableros.Update(board);
-            return await _context.SaveChangesAsync() > 0;
+            _context.Tableros.Update(tablero);
+            await _context.SaveChangesAsync();
+            return true;
         }
 
-        public async Task<bool> DeleteTableroAsync(int id)
+        public async Task<bool> DeleteAsync(int id)
         {
-            var board = await _context.Tableros.FindAsync(id);
-            if (board == null) return false;
+            var entity = await _context.Tableros.FindAsync(id);
+            if (entity == null) return false;
 
-            _context.Tableros.Remove(board);
-            return await _context.SaveChangesAsync() > 0;
+            _context.Tableros.Remove(entity);
+            await _context.SaveChangesAsync();
+            return true;
         }
     }
 }

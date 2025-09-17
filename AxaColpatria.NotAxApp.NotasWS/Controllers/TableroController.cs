@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using AxaColpatria.NotAxApp.Core.Interfaces;
 using AxaColpatria.NotAxApp.Core.Models;
+using AxaColpatria.NotAxApp.Core.DTOs;
 
 namespace AxaColpatria.NotAxApp.API.Controllers
 {
@@ -28,10 +29,15 @@ namespace AxaColpatria.NotAxApp.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateBoard([FromBody] Tablero tablero)
+        public async Task<IActionResult> CreateBoard([FromBody] TableroDTO tablero)
         {
-            var nuevo = await _repository.AddAsync(tablero);
-            return CreatedAtAction(nameof(GetBoard), new { id = nuevo.Id }, nuevo);
+            var tableronew = new Tablero
+            {
+                Nombre = tablero.Nombre
+            };
+
+            var createdBoard = await _repository.AddAsync(tableronew);
+            return CreatedAtAction(nameof(GetBoard), new { id = createdBoard.Id }, createdBoard);
         }
 
         [HttpPut("{id}")]

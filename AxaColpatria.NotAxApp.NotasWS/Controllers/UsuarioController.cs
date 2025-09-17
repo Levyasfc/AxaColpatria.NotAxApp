@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using AxaColpatria.NotAxApp.Core.Interfaces;
 using AxaColpatria.NotAxApp.Core.Models;
+using AxaColpatria.NotAxApp.Core.DTOs;
 
 namespace AxaColpatria.NotAxApp.API.Controllers
 {
@@ -28,10 +29,16 @@ namespace AxaColpatria.NotAxApp.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateUsuario([FromBody] Usuario usuario)
+        public async Task<IActionResult> CreateUsuario([FromBody] UserDTO usuario)
         {
-            var nuevo = await _repository.AddAsync(usuario);
-            return CreatedAtAction(nameof(GetUsuario), new { id = nuevo.Id }, nuevo);
+            var nuevousuario = new Usuario
+            {
+                Nombre = usuario.Nombre
+            };
+
+            await _repository.AddAsync(nuevousuario);
+
+            return CreatedAtAction(nameof(GetUsuario), new { id = nuevousuario.Id }, nuevousuario);
         }
 
         [HttpPut("{id}")]

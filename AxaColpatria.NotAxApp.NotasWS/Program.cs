@@ -1,7 +1,9 @@
 ﻿using AxaColpatria.NotAxApp.Core.Interfaces;
+using AxaColpatria.NotAxApp.Core.Services;
 using AxaColpatria.NotAxApp.Infraestructure.Data;
 using AxaColpatria.NotAxApp.Infraestructure.Repositories;
 using AxaColpatria.NotAxApp.Infraestructure.Services;
+using AxaColpatria.NotAxApp.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 using System;
 
@@ -19,6 +21,8 @@ builder.Services.AddScoped<INotaService, NotaService>();
 builder.Services.AddScoped<ITableroRepository, TableroRepository>();
 builder.Services.AddScoped<ITableroService, TableroService>();
 
+builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
+builder.Services.AddScoped<IUsuarioService, UsuarioService>();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
