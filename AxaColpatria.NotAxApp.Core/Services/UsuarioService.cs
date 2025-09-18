@@ -15,27 +15,28 @@ namespace AxaColpatria.NotAxApp.Core.Services
             _repository = repository;
         }
 
+        public Task<IEnumerable<Usuario>> GetAllUsuariosAsync() => _repository.GetAllAsync();
+
+        public Task<Usuario?> GetUsuarioByIdAsync(int id) => _repository.GetByIdAsync(id);  
+
         public async Task<Usuario> AddUsuarioAsync(Usuario usuario)
         {
             await _repository.AddAsync(usuario);
             return usuario;
         }
 
-        public Task<bool> DeleteUsuarioAsync(int id)
+        public async Task<bool> DeleteUsuarioAsync(int id)
         {
-            throw new NotImplementedException();
+            await _repository.DeleteAsync(id);
+            return true;
         }
 
-        public Task<IEnumerable<Usuario>> GetAllUsuariosAsync() => _repository.GetAllAsync();
+        
 
-        public Task<Usuario?> GetUsuarioByIdAsync(int id)
+        public async Task<bool> UpdateUsuarioAsync(Usuario usuario)
         {
-            throw new NotImplementedException();
-        }
-
-        public Task<bool> UpdateUsuarioAsync(Usuario usuario)
-        {
-            throw new NotImplementedException();
+            await _repository.UpdateAsync(usuario);
+            return true;
         }
     }
 }

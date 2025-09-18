@@ -13,7 +13,6 @@ namespace AxaColpatria.NotAxApp.Core.Mappings
             
                 Titulo = nota.Titulo,
                 Descripcion = nota.Descripcion,
-                UsuarioId = (int)nota.UsuarioId,
                 TableroId = (int)nota.TableroId
             };
         }
@@ -24,7 +23,6 @@ namespace AxaColpatria.NotAxApp.Core.Mappings
             {
                 Titulo = dto.Titulo,
                 Descripcion = dto.Descripcion,
-                UsuarioId = dto.UsuarioId,
                 TableroId = dto.TableroId
             };
         }

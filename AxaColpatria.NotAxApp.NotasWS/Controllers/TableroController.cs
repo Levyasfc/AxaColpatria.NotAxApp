@@ -17,8 +17,28 @@ namespace AxaColpatria.NotAxApp.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetBoards()
-            => Ok(await _repository.GetAllAsync());
+        public async Task<IActionResult> GetTableros()
+        
+            {
+                var tableros = await _repository.GetAllAsync();
+
+                var tablerosDTO = tableros.Select(u => new TableroDTO
+
+                {
+                    Id = u.Id,
+                    Nombre = u.Nombre,
+                    Notas = u.Notas?.Select(t => new NotaDTO
+
+                    {
+                        Id = t.Id,
+                        Titulo = t.Titulo
+                    }).ToList()
+                }).ToList();
+
+                return Ok(tablerosDTO);
+            }
+
+           
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetBoard(int id)
@@ -33,11 +53,12 @@ namespace AxaColpatria.NotAxApp.API.Controllers
         {
             var tableronew = new Tablero
             {
-                Nombre = tablero.Nombre
+                Nombre = tablero.Nombre,
+                UsuarioId = tablero.UsuarioId
             };
 
-            var createdBoard = await _repository.AddAsync(tableronew);
-            return CreatedAtAction(nameof(GetBoard), new { id = createdBoard.Id }, createdBoard);
+            var createdTablero = await _repository.AddAsync(tableronew);
+            return CreatedAtAction(nameof(GetBoard), new { id = createdTablero.Id }, createdTablero);
         }
 
         [HttpPut("{id}")]

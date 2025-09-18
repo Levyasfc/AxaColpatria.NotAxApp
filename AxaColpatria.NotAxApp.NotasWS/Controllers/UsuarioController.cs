@@ -18,14 +18,46 @@ namespace AxaColpatria.NotAxApp.API.Controllers
 
         [HttpGet]
         public async Task<IActionResult> GetUsuarios()
-            => Ok(await _repository.GetAllAsync());
+        {
+            var usuarios = await _repository.GetAllAsync();
+
+            var usuariosDTO = usuarios.Select(u => new UserDTO
+
+            {
+                Id = u.Id,
+                Nombre = u.Nombre,
+                Tableros = u.Tableros?.Select(t => new TableroDTO
+
+                {
+                    Id = t.Id,
+                    Nombre = t.Nombre
+                }).ToList()
+            }).ToList();
+
+            return Ok(usuariosDTO);
+        }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetUsuario(int id)
         {
             var usuario = await _repository.GetByIdAsync(id);
             if (usuario == null) return NotFound();
-            return Ok(usuario);
+            
+
+            var dto = new UserDTO
+            {
+                Id = usuario.Id,
+                Nombre = usuario.Nombre,
+                Tableros = usuario.Tableros?.Select(t=> new TableroDTO
+
+                {
+                Id = t.Id,
+                Nombre = t.Nombre
+                }
+                ).ToList()
+            };
+
+            return Ok(dto);
         }
 
         [HttpPost]

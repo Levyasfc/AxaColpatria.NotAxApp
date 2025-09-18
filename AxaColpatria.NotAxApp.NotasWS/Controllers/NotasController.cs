@@ -52,7 +52,6 @@ namespace AxaColpatria.NotAxApp.API.Controllers
             {
                 Titulo = Crearnota.Titulo,
                 Descripcion = Crearnota.Descripcion,
-                UsuarioId = Crearnota.UsuarioId,
                 TableroId = Crearnota.TableroId
             };
 

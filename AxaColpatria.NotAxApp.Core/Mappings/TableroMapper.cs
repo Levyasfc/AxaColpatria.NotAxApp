@@ -19,7 +19,8 @@ namespace AxaColpatria.NotAxApp.Core.Mappings
         {
             return new CreateTableroDTO
             {
-                Nombre = tablero.Nombre
+                Nombre = tablero.Nombre,
+                UsuarioId = (int)tablero.UsuarioId
             };
         }
 
